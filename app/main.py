@@ -11,16 +11,17 @@ class Person:
 def create_person_list(people: list) -> list:
     Person.people.clear()
 
-    for human in people:
-        Person(human["name"], human["age"])
+    [Person(human["name"], human["age"]) for human in people]
 
     for human in people:
         instance = Person.people[human["name"]]
 
-        if "wife" in human and human["wife"]:
-            instance.wife = Person.people[human["wife"]]
+        spouse_name = human.get("wife")
+        if spouse_name:
+            instance.wife = Person.people[spouse_name]
 
-        if "husband" in human and human["husband"]:
-            instance.husband = Person.people[human["husband"]]
+        spouse_name = human.get("husband")
+        if spouse_name:
+            instance.husband = Person.people[spouse_name]
 
-    return list(Person.people.values())
+    return [Person.people[human["name"]] for human in people]
